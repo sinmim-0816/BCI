@@ -675,6 +675,7 @@
     const risk = getRiskLabel(overallScore);
     const sortedAscending = [...categories].sort((a, b) => a.points - b.points);
     const sortedDescending = [...categories].sort((a, b) => b.points - a.points);
+    const strengths = categories.filter((category) => category.percent >= 90);
     const actions = [
       "Document a formal succession plan naming a specific successor",
       "Create and maintain SOPs for all critical business processes",
@@ -691,7 +692,7 @@
       overallScore,
       riskLabel: risk.label,
       riskRange: risk.range,
-      strengths: sortedDescending.slice(0, 2),
+      strengths,
       improvements: sortedAscending.slice(0, 2),
       actions,
     };

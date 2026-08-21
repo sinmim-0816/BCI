@@ -646,6 +646,14 @@ h1 {
   margin: 0 auto;
 }
 
+.results-hero-inner h1{
+  font-size:32px !important;
+}
+
+.results-hero-inner p{
+  font-size:14px !important;
+}
+
 .results-hero-brand {
   display: inline-flex;
   align-items: center;
@@ -1020,6 +1028,13 @@ h1 {
   color: #526174;
 }
 
+.insight-message {
+  margin: 18px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #526174;
+}
+
 .actions-card {
   padding: 20px 22px 16px;
 }
@@ -1157,7 +1172,7 @@ h1 {
 .results-disclaimer {
   margin: 0;
   justify-self: end;
-  max-width: 330px;
+  max-width: 530px;
   font-size: 14px;
   line-height: 1.35;
   color: #5f6f82;
