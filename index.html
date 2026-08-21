@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Continuity Index</title>
+  <meta name="description" content="Business Continuity assessment." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="assessment">
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+              <path d="M12 2l8 3v6c0 5.25-3.33 8.98-8 11-4.67-2.02-8-5.75-8-11V5l8-3z" fill="currentColor" opacity="0.95"/>
+              <path d="M8.5 12.3l2.2 2.2 4.9-5" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="brand-title">BCI<span>™</span></div>
+        </div>
+
+        <div class="answered">0/25 answered</div>
+      </div>
+
+      <div class="topbar-sub">
+        <p class="step-text">Step 1 of 6 — Business Continuity</p>
+        <div class="progress-track" aria-hidden="true">
+          <span class="progress-track-fill"></span>
+        </div>
+        <div class="progress" aria-label="Progress">
+          <span class="seg active"></span>
+          <span class="seg"></span>
+          <span class="seg"></span>
+          <span class="seg"></span>
+          <span class="seg"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="eyebrow">BUSINESS CONTINUITY</div>
+      <h1>Assess Your Business Continuity</h1>
+      <p class="intro">Select the answer that best describes your current situation.</p>
+
+      <section class="question">
+        <p class="question-title"><span class="num">1.</span>If you cannot work tomorrow, who can run the company?</p>
+        <div class="choices">
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">A designated person is fully prepared and documented</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Someone could step in but is not formally prepared</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">No one is clearly identified</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="question">
+        <p class="question-title"><span class="num">2.</span>Is there a documented succession plan?</p>
+        <div class="choices">
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Yes, formal and regularly reviewed</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Informal or partially documented</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">No succession plan exists</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="question">
+        <p class="question-title"><span class="num">3.</span>Can the business operate without the founder?</p>
+        <div class="choices">
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Yes, fully capable of operating independently</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Partially - some reliance on the founder</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">No, the business depends heavily on the founder</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="question">
+        <p class="question-title"><span class="num">4.</span>Are Standard Operating Procedures (SOPs) documented?</p>
+        <div class="choices">
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Yes, comprehensive and up-to-date SOPs</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Partially documented</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">No SOPs exist</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="question">
+        <p class="question-title"><span class="num">5.</span>Are key client and supplier relationships institutionalized?</p>
+        <div class="choices">
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Yes, multiple team members manage these relationships</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">Partially - some relationships are shared</span>
+          </button>
+          <button class="choice" type="button">
+            <span class="dot"></span>
+            <span class="choice-text">No, only the founder holds these relationships</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="footer-nav">
+          <button class="back" type="button" disabled>
+            <span>Back</span>
+          </button>
+          <button class="next" type="button" disabled>
+            <span>Next Section</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
