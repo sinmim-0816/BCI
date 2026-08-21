@@ -1,6 +1,7 @@
 (() => {
   const app = document.querySelector(".content");
   const page = document.querySelector(".page");
+  let radarChartInstance = null;
 
   const payload = readPayload();
   if (!payload) {
@@ -56,7 +57,7 @@
           <section class="results-card radar-card">
             <h2>Performance by Category</h2>
             <div class="radar-wrap">
-              ${buildRadarChart(results.categories)}
+              <div class="radar-chart" data-radar-chart></div>
             </div>
           </section>
         </div>
@@ -134,10 +135,114 @@
       </div>
     `;
 
+    renderPerformanceChart(results.categories);
     scrollToTop();
   }
 
-  function buildRadarChart(categories) {
+  function renderPerformanceChart(categories) {
+    const container = app.querySelector("[data-radar-chart]");
+    if (!container) {
+      return;
+    }
+
+    const values = categories.map((category) => category.percent);
+    const labels = categories.map((category) => category.label);
+
+    if (!window.echarts) {
+      container.innerHTML = buildRadarChartFallback(categories);
+      return;
+    }
+
+    if (radarChartInstance) {
+      radarChartInstance.dispose();
+      radarChartInstance = null;
+    }
+
+    radarChartInstance = echarts.init(container);
+    radarChartInstance.setOption({
+      animation: true,
+      animationDuration: 1200,
+      animationEasing: "cubicOut",
+      tooltip: {
+        trigger: "item",
+        backgroundColor: "#ffffff",
+        borderColor: "#dbe2eb",
+        borderWidth: 1,
+        textStyle: {
+          color: "#1f2e45",
+        },
+        formatter: ({ name, value }) => {
+          const rows = labels.map((label, index) => `<div style="display:flex;justify-content:space-between;gap:14px;margin:3px 0;"><span>${escapeHtml(label)}</span><strong>${Math.round(value[index])}%</strong></div>`).join("");
+          return `<div style="min-width:210px"><div style="font-weight:700;margin-bottom:6px;">${escapeHtml(name)}</div>${rows}</div>`;
+        },
+      },
+      radar: {
+        center: ["50%", "52%"],
+        radius: "58%",
+        splitNumber: 4,
+        shape: "polygon",
+        axisName: {
+          color: "#1f2e45",
+          fontSize: 13,
+          fontWeight: 500,
+          padding: [2, 4],
+        },
+        indicator: categories.map((category) => ({
+          name: category.label,
+          max: 100,
+        })),
+        splitArea: {
+          areaStyle: {
+            color: ["rgba(15,52,101,0.02)", "rgba(15,52,101,0.05)"],
+          },
+        },
+        splitLine: {
+          lineStyle: {
+            color: "#dbe2eb",
+            width: 1.1,
+          },
+        },
+        axisLine: {
+          lineStyle: {
+            color: "#dbe2eb",
+          },
+        },
+      },
+      series: [
+        {
+          type: "radar",
+          symbol: "circle",
+          symbolSize: 6,
+          data: [
+            {
+              value: values,
+              name: "Performance",
+              areaStyle: {
+                color: "rgba(21, 60, 114, 0.22)",
+              },
+              lineStyle: {
+                color: "#153c72",
+                width: 3,
+              },
+              itemStyle: {
+                color: "#e0b14c",
+                borderColor: "#153c72",
+                borderWidth: 1,
+              },
+            },
+          ],
+        },
+      ],
+      animationDurationUpdate: 1200,
+    });
+
+    window.requestAnimationFrame(() => {
+      radarChartInstance && radarChartInstance.resize();
+    });
+    window.addEventListener("resize", handleRadarResize, { passive: true });
+  }
+
+  function buildRadarChartFallback(categories) {
     const size = 360;
     const center = size / 2;
     const radius = 112;
@@ -187,6 +292,12 @@
         const y = center + Math.sin(angle) * radius * scale;
         return `${x.toFixed(1)},${y.toFixed(1)}`;
       }).join(" ");
+    }
+  }
+
+  function handleRadarResize() {
+    if (radarChartInstance && typeof radarChartInstance.resize === "function") {
+      radarChartInstance.resize();
     }
   }
 
