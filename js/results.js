@@ -727,6 +727,10 @@
     const navy = [13, 28, 66];
     const light = [186, 201, 230];
     const currentYear = new Date().getFullYear();
+    const creatorName = "Ivan";
+    const creatorOrg = "Trust Advisory / CW Group";
+    const creatorEmail = "ivantrustadvisory@cwgroup.com.my";
+    const creatorPhone = "+6019 6000 109";
 
     doc.setFillColor(...navy);
     doc.rect(0, 0, pageWidth, pageHeight, "F");
@@ -761,9 +765,14 @@
     doc.setTextColor(...gold);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
-    doc.text("Business Continuity Index™", pageWidth / 2, 785, { align: "center" });
+    doc.text(`Creator: ${creatorName}`, pageWidth / 2, 778, { align: "center" });
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7);
+    doc.text(creatorOrg, pageWidth / 2, 790, { align: "center" });
     doc.setTextColor(140, 154, 181);
     doc.setFont("helvetica", "normal");
+    doc.setFontSize(6.5);
+    doc.text(`${creatorEmail} | ${creatorPhone}`, pageWidth / 2, 803, { align: "center" });
     doc.setFontSize(7);
     doc.text(`© ${currentYear} All rights reserved.`, pageWidth / 2, 817, { align: "center" });
   }
@@ -801,15 +810,21 @@
     const navy = [13, 28, 66];
     const gold = [215, 175, 45];
     const gray = dark ? [165, 179, 205] : [129, 141, 170];
+    const creatorName = "Ivan";
+    const creatorOrg = "Trust Advisory / CW Group";
+    const creatorEmail = "ivantrustadvisory@cwgroup.com.my";
+    const creatorPhone = "+6019 6000 109";
 
     doc.setFillColor(...navy);
-    doc.rect(0, pageHeight - 38, pageWidth, 38, "F");
+    doc.rect(0, pageHeight - 46, pageWidth, 46, "F");
     doc.setTextColor(...gray);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(6.5);
-    doc.text("Business Continuity Index™ — Confidential", 52, pageHeight - 14);
-    doc.text("Not legal or financial advice.", pageWidth / 2, pageHeight - 14, { align: "center" });
-    doc.text(`Page ${pageNumber}`, pageWidth - 52, pageHeight - 14, { align: "right" });
+    doc.text("Business Continuity Index™ — Confidential", 52, pageHeight - 28);
+    doc.text(`Creator: ${creatorName} | ${creatorOrg}`, pageWidth / 2, pageHeight - 28, { align: "center" });
+    doc.text(`Page ${pageNumber}`, pageWidth - 52, pageHeight - 28, { align: "right" });
+    doc.setFontSize(6);
+    doc.text(`${creatorEmail} | ${creatorPhone}`, pageWidth / 2, pageHeight - 16, { align: "center" });
     doc.setFillColor(...gold);
     doc.rect(0, pageHeight - 2, pageWidth, 2, "F");
   }
