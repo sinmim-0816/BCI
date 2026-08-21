@@ -705,14 +705,67 @@
       year: "numeric",
     });
 
+    const sheetSubmissionPayload = buildSheetSubmissionPayload(results, completionDate);
+
     const payload = {
       ...results,
       fullName: getFullName() || "Your",
       completionDate,
+      sheetSubmissionPayload,
     };
 
     sessionStorage.setItem("bci-results-payload", JSON.stringify(payload));
     window.location.href = "results.html";
+  }
+
+  function buildSheetSubmissionPayload(results, completionDate) {
+    const formValues = state.formValues[5] || {};
+    const field = (label) => formValues[label] || "";
+    const lowestCategory = [...results.categories].sort((a, b) => a.points - b.points)[0] || null;
+    const topReviewAreas = [...results.categories]
+      .sort((a, b) => a.points - b.points)
+      .slice(0, 3);
+
+    const rawAnswersSaved = {
+      sections: sections.slice(0, 5).map((section, sectionIndex) => ({
+        section: section.stepLabel || `Section ${sectionIndex + 1}`,
+        questions: (section.questions || []).map((question, questionIndex) => {
+          const selectedIndex = state.answers[sectionIndex]?.[questionIndex];
+          return {
+            question: question.prompt,
+            selectedIndex,
+            selectedAnswer: selectedIndex === null || selectedIndex === undefined ? "" : (question.options[selectedIndex] || ""),
+          };
+        }),
+      })),
+      details: formValues,
+    };
+
+    return {
+      timestamp: new Date().toISOString(),
+      completion_date: completionDate,
+      full_name: getFullName() || "",
+      company_name: field("Company Name"),
+      position_title: field("Position / Title"),
+      email_address: field("Email Address"),
+      phone_number: field("Phone Number"),
+      industry: field("Industry"),
+      annual_revenue: field("Annual Revenue"),
+      number_of_employees: field("Number of Employees"),
+      overall_score: results.overallScore,
+      risk_label: results.riskLabel,
+      risk_range: results.riskRange,
+      business_continuity_score: results.categories[0]?.percent ?? "",
+      ownership_control_score: results.categories[1]?.percent ?? "",
+      management_succession_score: results.categories[2]?.percent ?? "",
+      family_wealth_transition_score: results.categories[3]?.percent ?? "",
+      legal_documentation_score: results.categories[4]?.percent ?? "",
+      lowest_dimension: lowestCategory ? lowestCategory.label : "",
+      top_review_area_1: topReviewAreas[0] ? topReviewAreas[0].label : "",
+      top_review_area_2: topReviewAreas[1] ? topReviewAreas[1].label : "",
+      top_review_area_3: topReviewAreas[2] ? topReviewAreas[2].label : "",
+      raw_answers_saved: JSON.stringify(rawAnswersSaved),
+    };
   }
 
   function buildRadarChart(categories) {

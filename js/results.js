@@ -2,6 +2,7 @@
   const app = document.querySelector(".content");
   const page = document.querySelector(".page");
   let radarChartInstance = null;
+  const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbygZQv_903p-8O02toDHwdEHfbVk8tkNT_xzAE6_vMXAAE-2pRs7WzZvThAk7-ZsVPv/exec";
 
   const payload = readPayload();
   if (!payload) {
@@ -12,6 +13,7 @@
   document.title = `${payload.fullName}'s Assessment Results`;
   page.classList.add("is-results");
   renderResults(payload);
+  submitResultsToSheet(payload);
   attachHandlers();
   animateResults(payload);
 
@@ -352,6 +354,39 @@
         window.location.href = "index.html";
       });
     }
+  }
+
+  function submitResultsToSheet(payload) {
+    const sheetPayload = payload.sheetSubmissionPayload;
+    if (!sheetPayload || !SHEET_ENDPOINT) {
+      return;
+    }
+
+    const storageKey = `bci-sheet-submitted:${sheetPayload.timestamp || payload.completionDate || payload.fullName || "result"}`;
+    if (sessionStorage.getItem(storageKey)) {
+      return;
+    }
+
+    const body = JSON.stringify(sheetPayload);
+    let sent = false;
+
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
+      sent = navigator.sendBeacon(SHEET_ENDPOINT, blob);
+    }
+
+    if (!sent) {
+      fetch(SHEET_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=UTF-8",
+        },
+        body,
+      }).catch(() => {});
+    }
+
+    sessionStorage.setItem(storageKey, "1");
   }
 
   function scrollToTop() {
