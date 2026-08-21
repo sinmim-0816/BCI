@@ -13,7 +13,6 @@
   document.title = `${payload.fullName}'s Assessment Results`;
   page.classList.add("is-results");
   renderResults(payload);
-  submitResultsToSheet(payload);
   attachHandlers();
   animateResults(payload);
 

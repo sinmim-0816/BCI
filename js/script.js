@@ -715,8 +715,44 @@
       sheetSubmissionPayload,
     };
 
-    sessionStorage.setItem("bci-results-payload", JSON.stringify(payload));
-    window.location.href = "results.html";
+    submitResultsToSheet({ sheetSubmissionPayload });
+    sessionStorage.setItem("bci-payment-payload", JSON.stringify(payload));
+    sessionStorage.removeItem("bci-results-payload");
+    window.location.href = "payment.html";
+  }
+
+  function submitResultsToSheet(payload) {
+    const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbygZQv_903p-8O02toDHwdEHfbVk8tkNT_xzAE6_vMXAAE-2pRs7WzZvThAk7-ZsVPv/exec";
+    const sheetPayload = payload.sheetSubmissionPayload;
+    if (!sheetPayload || !SHEET_ENDPOINT) {
+      return;
+    }
+
+    const storageKey = `bci-sheet-submitted:${sheetPayload.timestamp || payload.completionDate || payload.fullName || "result"}`;
+    if (sessionStorage.getItem(storageKey)) {
+      return;
+    }
+
+    const body = JSON.stringify(sheetPayload);
+    let sent = false;
+
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
+      sent = navigator.sendBeacon(SHEET_ENDPOINT, blob);
+    }
+
+    if (!sent) {
+      fetch(SHEET_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=UTF-8",
+        },
+        body,
+      }).catch(() => {});
+    }
+
+    sessionStorage.setItem(storageKey, "1");
   }
 
   function buildSheetSubmissionPayload(results, completionDate) {
