@@ -233,7 +233,6 @@
           ],
         },
       ],
-      animationDurationUpdate: 1200,
     });
 
     window.requestAnimationFrame(() => {
